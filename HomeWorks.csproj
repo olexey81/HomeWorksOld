@@ -9,8 +9,14 @@
 
   <ItemGroup>
     <Compile Remove="HW_3\**" />
+    <Compile Remove="HW_4_Bank\**" />
+    <Compile Remove="HW_4_Repka\**" />
     <EmbeddedResource Remove="HW_3\**" />
+    <EmbeddedResource Remove="HW_4_Bank\**" />
+    <EmbeddedResource Remove="HW_4_Repka\**" />
     <None Remove="HW_3\**" />
+    <None Remove="HW_4_Bank\**" />
+    <None Remove="HW_4_Repka\**" />
   </ItemGroup>
 
   <ItemGroup>
