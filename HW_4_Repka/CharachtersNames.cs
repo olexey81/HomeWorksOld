@@ -2,11 +2,11 @@
 {
     enum CharachtersNames
     {
-        Дід,
-        Бабця,
-        Онучка,
-        Жучка,
-        Мишка,
-        Мурашка
+        Grandpa,
+        Grandma,
+        Granddaughter,
+        Zhuchka,
+        Mouse,
+        Ant
     }
 }

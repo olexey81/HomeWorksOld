@@ -30,7 +30,7 @@
             Random random = new Random();
             int ID = random.Next(10000000, 99999999);
 
-            Account account = new Account(ID, 0m, 0m, client.FirstName + " " + client.LastName);
+            Account account = new Account(ID, 0, 0, 0m, client.FirstName + " " + client.LastName);
             
             accounts.Add(account);
             client.Accounts.Add(account);
@@ -39,13 +39,13 @@
         }
 
         // поповнення рахунка
-        public void Depositing(Account account, decimal amount) => account.DepositingAccount(new Money(amount));
+        public void Depositing(Account account, int uah, int kopecks) => account.DepositingAccount(new Money(uah, kopecks));
         
         // зняття з рахунка
-        public void Withdrawing(Account account, decimal amount) => account.WithdrawingAccount(new Money(amount));
+        public void Withdrawing(Account account, int uah, int kopecks) => account.WithdrawingAccount(new Money(uah, kopecks));
         
         // переказ між рахунками 
-        public void Transfer(Account outputAccount, Account inputAccount, decimal amount) => outputAccount.TransferBetweenAccounts(inputAccount, new Money(amount));
+        public void Transfer(Account outputAccount, Account inputAccount, int uah, int kopecks) => outputAccount.TransferBetweenAccounts(inputAccount, new Money(uah, kopecks));
         
         // зміна ставки
         public void ChangeRate(Account account, decimal newRate) => account.ChangeRateInAccount(newRate);

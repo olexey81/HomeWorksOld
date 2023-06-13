@@ -11,11 +11,11 @@ namespace HW_4_Bank
         public List<Transaction> Transactions { get; private set; }
 
 
-        public Account(int id, decimal initBalance, decimal rate, string clientName)
+        public Account(int id, int uah, int kopecks, decimal rate, string clientName)
         {
             ID = id;
             ClientName = clientName;
-            Balance = new Money(initBalance);
+            Balance = new Money(uah, kopecks);
             Rate = rate;
             Transactions = new List<Transaction>();
         }
