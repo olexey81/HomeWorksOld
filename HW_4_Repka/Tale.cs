@@ -28,7 +28,7 @@ namespace HW_4_Repka
             _name = Console.ReadLine();
 
             Console.WriteLine($"\n\tКазка про {_name}\n");
-            Console.WriteLine($"Посадив {_nextCharachter.Name} {_name}");
+            Console.WriteLine($"Посадив {CharachtersNames.Grandpa} {_name}");
 
             Console.Write($"Через скільки днів будемо тягнути {_name}? Введіть кількість днів: ");
             _days = Convert.ToInt32(Console.ReadLine());

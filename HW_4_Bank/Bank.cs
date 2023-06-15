@@ -2,7 +2,7 @@
 {
     internal class Bank
     {
-        List<Client> clients;
+        private List<Client> clients;
         List<Account> accounts;
 
         public Bank()

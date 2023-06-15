@@ -1,6 +1,11 @@
 ﻿namespace HW_4_Bank
 {
-    internal class Client
+    interface IClient
+    {
+        string FirstName { get; }    
+        string LastName { get; }    
+    }
+    internal class Client : IClient
     {
         public string FirstName { get; }    
         public string LastName { get; }    

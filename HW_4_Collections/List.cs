@@ -108,12 +108,8 @@
         }
         public bool Contains(object item)
         {
-            for (int i = 0; i < _size; i++)
-            {
-                if (_items[i].Equals(item))
-                    return true;
-            }
-
+            if (IndexOf(item) > -1)
+                return true;
             return false;
         }
         public int IndexOf(object item)
@@ -170,40 +166,27 @@
         }
         private void ModArrayToInsert(int index)
         {
-            object[] _itemsMod;
-
             if (_size == Capacity)
-                _itemsMod = new object[Capacity + _InitCapacity];
-            else
-                _itemsMod = new object[Capacity];
-
-            for (int i = 0; i < _size; i++)
             {
-                if (i < index)
-                    _itemsMod[i] = _items[i];
-                else
-                    _itemsMod[i + 1] = _items[i];
-            }
-
-            _items = _itemsMod;
+                object[] _itemsMod;
+                _itemsMod = new object[Capacity + _InitCapacity];
+                for (int i = 0; i < _size; i++)
+                {
+                    if (i < index)
+                        _itemsMod[i] = _items[i];
+                    else
+                        _itemsMod[i + 1] = _items[i];
+                }
+                _items = _itemsMod;
+            }    
+            else
+                for (int i = _size; i > index; i--)
+                    _items[i] = _items[i - 1];
         }
         private void CompressArray(int index)
         {
-            object[] _itemsCompressed;
-            if (Capacity - _size > _InitCapacity)
-                _itemsCompressed = new object[_InitCapacity + _size];
-            else
-                _itemsCompressed = new object[Capacity];
-
-            for (int i = 0; i < _size - 1; i++)
-            {
-                if (i < index)
-                    _itemsCompressed[i] = _items[i];
-                else
-                    _itemsCompressed[i] = _items[i + 1];
-            }
-
-            _items = _itemsCompressed;
+            for (int i = index; i < _size; i++)
+                    _items[i] = _items[i + 1];
             _size--;
         }
     }
