@@ -2,15 +2,15 @@
 {
     internal class OneLinkedList
     {
-        private OneLinkedNode _first;
-        private OneLinkedNode _last;
+        private OneLinkedNode? _first;
+        private OneLinkedNode? _last;
         protected int _size;
 
         public int Count => _size; 
-        public virtual object First => _first.Data;
-        public virtual object Last => _last.Data;
+        public virtual object? First => _first?.Data;
+        public virtual object? Last => _last?.Data;
 
-        public void Add(object data)
+        public virtual void Add(object data)
         {
             OneLinkedNode newNode = new OneLinkedNode(data);
 
@@ -27,7 +27,7 @@
 
             _size++;
         }
-        public void AddFirst(object data)
+        public virtual void AddFirst(object data)
         {
             OneLinkedNode newNode = new OneLinkedNode(data);
 
@@ -80,14 +80,14 @@
             _size++;
         }
 
-        public void Clear()
+        public virtual void Clear()
         {
             _first = null;
             _last = null;
             _size = 0;
         }
 
-        public bool Contains(object data)
+        public virtual bool Contains(object data)
         {
             OneLinkedNode current = _first;
 
@@ -102,7 +102,7 @@
             return false;
         }
 
-        public object[] ToArray()
+        public virtual object[] ToArray()
         {
             object[] array = new object[_size];
             OneLinkedNode current = _first;
@@ -120,7 +120,7 @@
         protected class OneLinkedNode
         {
             public object Data { get; }
-            public OneLinkedNode Next { get; set; } = null;
+            public OneLinkedNode? Next { get; set; } = null;
 
             public OneLinkedNode(object data)
             {

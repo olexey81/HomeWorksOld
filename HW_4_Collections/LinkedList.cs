@@ -2,13 +2,13 @@
 {
     internal class LinkedList : OneLinkedList
     {
-        private LinkedNode _first;
-        private LinkedNode _last;
-        public override object First => _first.Data;
-        public override object Last => _last.Data;
+        private LinkedNode? _first;
+        private LinkedNode? _last;
+        public override object? First => _first?.Data;
+        public override object? Last => _last?.Data;
 
 
-        public new void Add(object data)
+        public override void Add(object data)
         {
             LinkedNode newNode = new LinkedNode(data);
 
@@ -27,7 +27,7 @@
             _size++;
         }
 
-        public new void AddFirst(object data)
+        public override void AddFirst(object data)
         {
             LinkedNode newNode = new LinkedNode(data);
 
@@ -48,7 +48,7 @@
 
         public void Remove(object data)
         {
-            LinkedNode current = _first;
+            LinkedNode? current = _first;
 
             while (current != null)
             {
@@ -56,7 +56,7 @@
                 {
                     if (current == _first)
                     {
-                        _first = current.Next;
+                        _first = (LinkedNode?)current.Next;
                         if (_first != null)
                             _first.Previous = null;
                     }
@@ -69,7 +69,7 @@
                     else
                     {
                         current.Previous.Next = current.Next;
-                        current.Next.Previous = current.Previous;
+                        ((LinkedNode)(current.Next)).Previous = current.Previous;
                     }
 
                     _size--;
@@ -77,7 +77,7 @@
                     break;
                 }
 
-                current = current.Next;
+                current = (LinkedNode?)current.Next;
             }
         }
 
@@ -93,7 +93,7 @@
             }
             else
             {
-                _first = _first.Next;
+                _first = (LinkedNode?)_first.Next;
                 _first.Previous = null;
             }
 
@@ -119,22 +119,22 @@
             _size--;
         }
 
-        public new bool Contains(object data)
+        public override bool Contains(object data)
         {
-            LinkedNode current = _first;
+            LinkedNode? current = _first;
 
             while (current != null)
             {
                 if (current.Data.Equals(data))
                     return true;
 
-                current = current.Next;
+                current = (LinkedNode?)current.Next;
             }
 
             return false;
         }
 
-        public new object[] ToArray()
+        public override object[] ToArray()
         {
             object[] array = new object[_size];
             LinkedNode current = _first;
@@ -143,14 +143,14 @@
             while (current != null)
             {
                 array[index] = current.Data;
-                current = current.Next;
+                current = (LinkedNode?)current.Next;
                 index++;
             }
 
             return array;
         }
 
-        public new void Clear() 
+        public override void Clear()
         {
             _first = null;
             _last = null;
@@ -159,8 +159,8 @@
 
         private class LinkedNode : OneLinkedNode
         {
-            public new LinkedNode Next { get; set; } = null;
-            public LinkedNode Previous { get; set; } = null;
+            //public new LinkedNode? Next { get; set; } = null;
+            public LinkedNode? Previous { get; set; } = null;
 
             public LinkedNode(object data) : base(data)
             {
