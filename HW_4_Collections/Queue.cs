@@ -42,8 +42,6 @@
 // Черга
 // Принцип FIFO.
 
-
-
 // Методи
 //  Enqueue(object)         +
 //  object Dequeue()        +

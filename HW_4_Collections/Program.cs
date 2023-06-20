@@ -31,8 +31,8 @@ namespace HW_4_Collections
             //myList.Clear();
 
 
-            //OneLinkedList oneLinkedList = new OneLinkedList();
-            //oneLinkedList.Add(1);
+            OneLinkedList oneLinkedList = new OneLinkedList();
+            oneLinkedList.Add(1);
             //oneLinkedList.Add("2");
             //var test2 = oneLinkedList.Last;
             //var test3 = oneLinkedList.First;

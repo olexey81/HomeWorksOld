@@ -1,6 +1,8 @@
-﻿namespace HW_4_Collections
+﻿using System.Collections;
+
+namespace HW_4_Collections
 {
-    internal class List
+    internal class List : ICollection
     {
         private object[] _items;
         private const int _InitCapacity = 4;
@@ -44,7 +46,6 @@
                 else
                     Console.WriteLine("Error! Incorrect index");
             }
-
         }
 
 
@@ -147,13 +148,7 @@
             _items = reversedItems;
         }
 
-
-
-        private void AddToEnd(object newItem)
-        {
-            _items[_size] = newItem;
-            _size++;
-        }
+        private void AddToEnd(object newItem) => _items[_size++] = newItem;
 
         private void ExtendArray()
         {
@@ -186,7 +181,7 @@
         private void CompressArray(int index)
         {
             for (int i = index; i < _size; i++)
-                    _items[i] = _items[i + 1];
+                _items[i] = _items[i + 1];
             _size--;
         }
     }
