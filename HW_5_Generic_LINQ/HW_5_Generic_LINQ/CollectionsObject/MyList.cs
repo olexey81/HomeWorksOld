@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 
-namespace HW_4_Collections
+namespace HW_5_Generic_LINQ.Collections
 {
-    internal class List : ICollection
+    internal class MyList : Interfaces.IMyList
     {
         private object[] _items;
         private const int _InitCapacity = 4;
@@ -31,7 +31,7 @@ namespace HW_4_Collections
         {
             get
             {
-                if (index <= _size - 1)
+                if (index < Count)
                     return _items[index];
                 else
                 {
@@ -41,7 +41,7 @@ namespace HW_4_Collections
             }
             set
             {
-                if (index < _size - 1)
+                if (index < Count)
                     _items[index] = value;
                 else
                     Console.WriteLine("Error! Incorrect index");
@@ -49,11 +49,11 @@ namespace HW_4_Collections
         }
 
 
-        public List()
+        public MyList()
         {
             _items = new object[_InitCapacity];
         }
-        public List(int capacity)
+        public MyList(int capacity)
         {
             Capacity = capacity;
             _items = new object[Capacity];
@@ -65,10 +65,39 @@ namespace HW_4_Collections
                 AddToEnd(newItem);
             else
             {
-                ExtendArray();
+                Grow();
                 AddToEnd(newItem);
             }
         }
+
+        public int BinarySearch(object item) => BinarySearch(item, 0, Count - 1);
+        private int BinarySearch(object item, int left, int right)
+        {
+            Sort();
+
+            if (left <= right)
+            {
+                int middle = (left + right) / 2;
+                int comparisonResult = Comparer<object>.Default.Compare(_items[middle], item);
+
+                if (comparisonResult == 0)
+                {
+                    return middle;
+                }
+                else if (comparisonResult > 0)
+                {
+                    return BinarySearch(item, left, middle - 1);
+                }
+                else
+                {
+                    return BinarySearch(item, middle + 1, right);
+                }
+            }
+
+            return -1;
+        }
+
+
         public void Insert(int index, object newItem)
         {
             if (index >= _size)
@@ -148,11 +177,69 @@ namespace HW_4_Collections
             _items = reversedItems;
         }
 
+        public void Sort() => MergeSort(_items, 0, Count - 1);
+        private void MergeSort(object[] arr, int left, int right)
+        {
+            if (left < right)
+            {
+                int middle = (left + right) / 2;
+
+                MergeSort(arr, left, middle);
+                MergeSort(arr, middle + 1, right);
+
+                Merge(arr, left, middle, right);
+            }
+        }
+        private void Merge(object[] arr, int left, int middle, int right)
+        {
+            int n1 = middle - left + 1;
+            int n2 = right - middle;
+
+            object[] leftArr = new object[n1];
+            object[] rightArr = new object[n2];
+
+            Array.Copy(arr, left, leftArr, 0, n1);
+            Array.Copy(arr, middle + 1, rightArr, 0, n2);
+
+            int i = 0, j = 0;
+            int k = left;
+
+            while (i < n1 && j < n2)
+            {
+                if (Comparer<object>.Default.Compare(leftArr[i], rightArr[j]) <= 0)
+                {
+                    arr[k] = leftArr[i];
+                    i++;
+                }
+                else
+                {
+                    arr[k] = rightArr[j];
+                    j++;
+                }
+                k++;
+            }
+
+            while (i < n1)
+            {
+                arr[k] = leftArr[i];
+                i++;
+                k++;
+            }
+
+            while (j < n2)
+            {
+                arr[k] = rightArr[j];
+                j++;
+                k++;
+            }
+        }
+
+
         private void AddToEnd(object newItem) => _items[_size++] = newItem;
 
-        private void ExtendArray()
+        private void Grow()
         {
-            object[] _itemsExtend = new object[Capacity + _InitCapacity * 2];
+            object[] _itemsExtend = new object[_InitCapacity + _items.Length * 2];
 
             for (int i = 0; i < _size; i++)
                 _itemsExtend[i] = _items[i];
@@ -173,32 +260,56 @@ namespace HW_4_Collections
                         _itemsMod[i + 1] = _items[i];
                 }
                 _items = _itemsMod;
-            }    
+            }
             else
                 for (int i = _size; i > index; i--)
                     _items[i] = _items[i - 1];
         }
         private void CompressArray(int index)
         {
+            if (index == _size - 1)
+            {
+                _items[index] = null;
+                _size--;
+                return;
+            }
             for (int i = index; i < _size; i++)
                 _items[i] = _items[i + 1];
             _size--;
         }
+
+        //public IEnumerator GetEnumerator()
+        //{
+        //    for (int i = 0; i < Count; i++)
+        //        yield return _items[i];
+        //}
+        public IEnumerator GetEnumerator() => new ListIterator(this);
+        private class ListIterator : IEnumerator
+        {
+            private readonly MyList _items;
+            private int _index;
+            public object? Current { get; private set; }
+
+            public ListIterator(MyList items)
+            {
+                _items = items;
+                _index = 0;
+            }
+            public bool MoveNext()
+            {
+                if (_index < _items.Count)
+                {
+                    Current = _items[_index++];
+                    return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                _index = 0;
+            }
+        }
     }
 }
 
-// Список(List)
-// Це динамічний масив, тобто. масив, який може змінювати свій розмір.
-// Повинні бути методи:
-//  Add(object)             +
-//  Insert(int, object)     +
-//  Remove(object)          +
-//  RemoveAt(int)           +
-//  Clear()                 +
-//  bool Contains(object)   +
-//  int IndexOf(object)     +
-//  object[] ToArray()      +
-//  Reverse()               +
-
-//  Також має бути властивість-індексатор (читання та запис) і властивість Count (тільки читання). +
-//  Додатково можна реалізувати якість Capacity. Тоді крім конструктора за замовчуванням, має бути конструктор, що приймає Capacity. (Не обов'язково) +

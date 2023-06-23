@@ -1,6 +1,9 @@
-﻿namespace HW_4_Collections
+﻿using HW_5_Generic_LINQ.Interfaces;
+using System.Collections;
+
+namespace HW_5_Generic_LINQ.Collections
 {
-    public class BinarySearchTree
+    public class MyBinarySearchTree : IMyBinarySearchTree
     {
         private Node _root;
         private int _size;
@@ -13,7 +16,6 @@
             _root = InsertNode(_root, value);
             _size++;
         }
-
         private Node InsertNode(Node current, int value)
         {
             if (current == null)
@@ -26,9 +28,7 @@
 
             return current;
         }
-
         public bool Contains(int value) => SearchNode(_root, value) != null;
-        
         private Node SearchNode(Node current, int value)
         {
             if (current == null || current.Value == value)
@@ -39,22 +39,19 @@
             else
                 return SearchNode(current.Right, value);
         }
-
         public void Clear()
         {
             _root = null;
             _size = 0;
         }
-
         public object[] ToArray()
         {
-            List array = new List(_size);
+            MyList array = new MyList(_size);
             TreeInOrder(_root, array);
 
             return array.ToArray();
         }
-
-        private void TreeInOrder(Node current, List result)
+        private void TreeInOrder(Node current, MyList result)
         {
             if (current != null)
             {
@@ -65,7 +62,42 @@
                 TreeInOrder(current.Right, result);
             }
         }
+        //public IEnumerator GetEnumerator()
+        //{
+        //List tree = new List(Count);
+        //TreeInOrder(Root, tree);
+        //    for (int i = 0; i < Count; i++)
+        //    {
+        //        yield return tree[i];
+        //    }
+        //}
+        public IEnumerator GetEnumerator() => new BinaryTreeIterator(this);
+        private class BinaryTreeIterator : IEnumerator
+        {
+            private readonly object[] _tree;
+            private int _index;
+            public object? Current { get; private set; }
 
+            public BinaryTreeIterator(MyBinarySearchTree tree)
+            {
+                _tree = tree.ToArray();
+                _index = 0;
+            }
+            public bool MoveNext()
+            {
+                if (_index < _tree.Length)
+                {
+                    Current = _tree[_index++];
+                    return true;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                _index = 0;
+            }
+        }
         public class Node
         {
             public int Value { get; }
@@ -80,17 +112,4 @@
             }
         }
     }
-
 }
-//  Дерево
-//  Потрібно реалізувати бінарне дерево пошуку: де кожен вузол може містити ліві та праві вузли – зліва найменші елементи, а праворуч – найбільші.
-//  Обхід по дереву має бути рекурсивним.
-//  Свойства: Root и Count
-
-//  Методы:
-//  Add(int)                +
-//  bool Contains(int)      +
-//  Clear()                 +
-//  ToArray().              +
-
-//  Додатково, на свій страх і ризик: створення дерева, що самобалансується, або методу балансування. (Див. AVL-дерево, червоно-чорне дерево).
