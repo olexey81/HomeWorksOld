@@ -44,32 +44,6 @@ namespace HW_5_Generic_LINQ.Collections
         //    for (int i = 0; i < Count; i++)
         //        yield return _items[i];
         //}
-        public IEnumerator GetEnumerator() => new QueueIterator(_items);
-        private class QueueIterator : IEnumerator
-        {
-            private readonly MyList _items;
-            private int _index;
-            public object? Current { get; private set; }
-
-            public QueueIterator(MyList items)
-            {
-                _items = items;
-                _index = 0;
-            }
-            public bool MoveNext()
-            {
-                if (_index < _items.Count)
-                {
-                    Current = _items[_index++];
-                    return true;
-                }
-                return false;
-            }
-
-            public void Reset()
-            {
-                _index = 0;
-            }
-        }
+        public IEnumerator GetEnumerator() => _items.GetEnumerator();
     }
 }

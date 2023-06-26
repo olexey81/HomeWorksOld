@@ -1,21 +1,24 @@
 ﻿using HW_5_Generic_LINQ.Interfaces;
 using System.Collections;
+using System;
 
 namespace HW_5_Generic_LINQ.Collections
 {
-    internal class MyOneLinkedList<T> : IMyLinkedLists<T> where T : IComparable<T>
+    internal class MyOneLinkedList<T> : IMyLinkedLists<T>
     {
         protected OneLinkedNode<T> _first;
-        private OneLinkedNode<T> _last;
+        protected OneLinkedNode<T> _last;
         protected int _size;
 
         public int Count => _size;
         public virtual T First => _first.Data;
         public virtual T Last => _last.Data;
 
+        protected virtual OneLinkedNode<T> NewNode(T data) => new OneLinkedNode<T>(data);
+
         public virtual void Add(T data)
         {
-            OneLinkedNode<T> newNode = new OneLinkedNode<T>(data);
+            OneLinkedNode<T> newNode = NewNode(data);
 
             if (_first == null)
             {
@@ -32,7 +35,7 @@ namespace HW_5_Generic_LINQ.Collections
         }
         public virtual void AddFirst(T data)
         {
-            OneLinkedNode<T> newNode = new OneLinkedNode<T>(data);
+            OneLinkedNode<T> newNode = NewNode(data);
 
             if (_first == null)
             {
@@ -47,8 +50,7 @@ namespace HW_5_Generic_LINQ.Collections
 
             _size++;
         }
-
-        public virtual int BinarySearch(T item)
+        public int BinarySearch(T item, Func<T, T, int> comparison)
         {
             Sort();
             int left = 0;
@@ -56,10 +58,10 @@ namespace HW_5_Generic_LINQ.Collections
 
             while (left <= right)
             {
-                int middle = left + (right - left) / 2;
+                int middle = (right + left) / 2;
                 T middleValue = GetNodeValueAt(middle);
 
-                int comparisonResult = middleValue.CompareTo(item);
+                int comparisonResult = comparison(middleValue, item);
 
                 if (comparisonResult == 0)
                 {
@@ -192,14 +194,14 @@ namespace HW_5_Generic_LINQ.Collections
             }
             _size--;
         }
-        public virtual void Clear()
+        public void Clear()
         {
             _first = null;
             _last = null;
             _size = 0;
         }
 
-        public virtual bool Contains(T data)
+        public bool Contains(T data)
         {
             OneLinkedNode<T> current = _first;
 
@@ -219,7 +221,7 @@ namespace HW_5_Generic_LINQ.Collections
             _first = MergeSort(_first);
             UpdateLastNode();
         }
-        private OneLinkedNode<T> MergeSort(OneLinkedNode<T> head) 
+        protected OneLinkedNode<T> MergeSort(OneLinkedNode<T> head) 
         {
             if (head == null || head.Next == null)
             {
@@ -298,7 +300,7 @@ namespace HW_5_Generic_LINQ.Collections
             _last = current;
         }
 
-        public virtual T[] ToArray()
+        public T[] ToArray()
         {
             T[] array = new T[_size];
             OneLinkedNode<T> current = _first;
@@ -327,6 +329,7 @@ namespace HW_5_Generic_LINQ.Collections
         //}
 
         public virtual IEnumerator<T> GetEnumerator() => new LinkedListIterator<T>(_first);
+
         private class LinkedListIterator<T> : IEnumerator<T>
         {
             private OneLinkedNode<T> _currentNode;
@@ -344,7 +347,7 @@ namespace HW_5_Generic_LINQ.Collections
                 if (_currentNode == null)
                     return false;
 
-                Current = (T)_currentNode.Data;
+                Current = _currentNode.Data;
                 _currentNode = _currentNode.Next;
                 return true;
             }

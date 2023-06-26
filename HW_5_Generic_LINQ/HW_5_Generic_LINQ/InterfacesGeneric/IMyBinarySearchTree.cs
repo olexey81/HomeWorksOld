@@ -2,9 +2,8 @@
 
 namespace HW_5_Generic_LINQ.Interfaces
 {
-    internal interface IMyBinarySearchTree<T> : IMyCollection<T>
+    public interface IMyBinarySearchTree<T> : IMyCollection<T>
     {
         void Add(T value);
-        bool Contains(T value);
     }
 }

@@ -6,16 +6,18 @@ namespace HW_5_Generic_LINQ.Collections
     internal class MyOneLinkedList : IMyLinkedLists
     {
         protected OneLinkedNode? _first;
-        private OneLinkedNode? _last;
+        protected OneLinkedNode? _last;
         protected int _size;
 
         public int Count => _size;
         public virtual object? First => _first?.Data;
         public virtual object? Last => _last?.Data;
 
+
+        protected virtual OneLinkedNode NewNode(object data) => new OneLinkedNode( data);
         public virtual void Add(object data)
         {
-            OneLinkedNode newNode = new OneLinkedNode(data);
+            OneLinkedNode newNode = NewNode(data);
 
             if (_first == null)
             {
@@ -32,7 +34,7 @@ namespace HW_5_Generic_LINQ.Collections
         }
         public virtual void AddFirst(object data)
         {
-            OneLinkedNode newNode = new OneLinkedNode(data);
+            OneLinkedNode newNode = NewNode(data);
 
             if (_first == null)
             {
@@ -48,7 +50,7 @@ namespace HW_5_Generic_LINQ.Collections
             _size++;
         }
 
-        public virtual int BinarySearch(object item)
+        public int BinarySearch(object item)
         {
             Sort();
             int left = 0;
@@ -56,7 +58,7 @@ namespace HW_5_Generic_LINQ.Collections
 
             while (left <= right)
             {
-                int middle = left + (right - left) / 2;
+                int middle = (right + left) / 2;
                 object middleValue = GetNodeValueAt(middle);
 
                 int comparisonResult = Comparer<object>.Default.Compare(middleValue, item);
@@ -192,16 +194,16 @@ namespace HW_5_Generic_LINQ.Collections
             }
             _size--;
         }
-        public virtual void Clear()
+        public void Clear()
         {
             _first = null;
             _last = null;
             _size = 0;
         }
 
-        public virtual bool Contains(object data)
+        public bool Contains(object data)
         {
-            OneLinkedNode current = _first;
+            OneLinkedNode? current = _first;
 
             while (current != null)
             {
@@ -219,7 +221,7 @@ namespace HW_5_Generic_LINQ.Collections
             _first = MergeSort(_first);
             UpdateLastNode();
         }
-        private OneLinkedNode? MergeSort(OneLinkedNode? head)
+        protected OneLinkedNode? MergeSort(OneLinkedNode? head)
         {
             if (head == null || head.Next == null)
             {
@@ -298,7 +300,7 @@ namespace HW_5_Generic_LINQ.Collections
             _last = current;
         }
 
-        public virtual object[] ToArray()
+        public object[] ToArray()
         {
             object[] array = new object[_size];
             OneLinkedNode current = _first;

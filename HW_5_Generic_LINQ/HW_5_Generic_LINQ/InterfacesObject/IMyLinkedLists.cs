@@ -1,6 +1,6 @@
 ﻿namespace HW_5_Generic_LINQ.Interfaces
 {
-    internal interface IMyLinkedLists : IMyCollection
+    public interface IMyLinkedLists : IMyCollection
     {
         object? First { get; }
         object? Last { get; }

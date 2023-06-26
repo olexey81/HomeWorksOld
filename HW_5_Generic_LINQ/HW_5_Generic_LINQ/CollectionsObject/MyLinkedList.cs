@@ -5,69 +5,23 @@ namespace HW_5_Generic_LINQ.Collections
 {
     internal class MyLinkedList : MyOneLinkedList, IMyLinkedLists
     {
-        private LinkedNode? _first;
-        private LinkedNode? _last;
-        public override object? First => _first?.Data;
-        public override object? Last => _last?.Data;
-
+        protected override OneLinkedNode NewNode(object data) => new LinkedNode(data);
 
         public override void Add(object data)
         {
-            LinkedNode newNode = new LinkedNode(data);
+            LinkedNode? newNode = (LinkedNode)_last;
+            base.Add(data);
 
-            if (_first == null)
-            {
-                _first = newNode;
-                _last = newNode;
-            }
-            else
-            {
-                newNode.Previous = _last;
-                _last.Next = newNode;
-                _last = newNode;
-            }
-
-            _size++;
+            if (newNode != null)
+                ((LinkedNode)_last).Previous = newNode;
         }
         public override void AddFirst(object data)
         {
-            LinkedNode newNode = new LinkedNode(data);
+            LinkedNode? newNode = (LinkedNode)_first;
+            base.AddFirst(data);
 
-            if (_first == null)
-            {
-                _first = newNode;
-                _last = newNode;
-            }
-            else
-            {
-                newNode.Next = _first;
-                _first.Previous = newNode;
-                _first = newNode;
-            }
-
-            _size++;
-        }
-        public override int BinarySearch(object item)
-        {
-            Sort();
-            int left = 0;
-            int right = Count - 1;
-
-            LinkedNode? current = _first;
-            int index = 0;
-
-            while (current != null)
-            {
-                if (Equals(current.Data, item))
-                {
-                    return index;
-                }
-
-                current = (LinkedNode)current.Next;
-                index++;
-            }
-
-            return -1;
+            if (newNode != null)
+                newNode.Previous = (LinkedNode)_first;
         }
 
         public override void Insert(int index, object data)
@@ -88,7 +42,7 @@ namespace HW_5_Generic_LINQ.Collections
             }
 
             LinkedNode newNode = new LinkedNode(data);
-            LinkedNode current = _first;
+            LinkedNode current = (LinkedNode)_first;
             LinkedNode previous = null;
             int currentIndex = 0;
 
@@ -98,63 +52,63 @@ namespace HW_5_Generic_LINQ.Collections
                 current = (LinkedNode?)current.Next;
                 currentIndex++;
             }
-
+            current.Previous = newNode;
             newNode.Next = current;
+            newNode.Previous = previous;
             previous.Next = newNode;
 
             _size++;
         }
         public override void Remove(object data)
         {
-            LinkedNode? current = _first;
+            if (Count == 0) return;
+            if (Count == 1 && _first.Data.Equals(data))
+            { 
+                _first = null;
+                _last = null;
+                _size--;
+                return;
+            }
+            LinkedNode? current = (LinkedNode?)_first;
+            LinkedNode? next = (LinkedNode?)current.Next;
+            LinkedNode? previous = null;
 
             while (current != null)
             {
                 if (current.Data.Equals(data))
                 {
-                    if (current == _first)
+                    if (next == null)
                     {
-                        _first = (LinkedNode?)current.Next;
-                        if (_first != null)
-                            _first.Previous = null;
-                    }
-                    else if (current == _last)
-                    {
-                        _last = current.Previous;
-                        if (_last != null)
-                            _last.Next = null;
+                        previous.Next = null;
+                        _last = previous;
                     }
                     else
                     {
-                        current.Previous.Next = current.Next;
-                        ((LinkedNode)current.Next).Previous = (LinkedNode)current.Previous;
+                        next.Previous = previous;
+
+                        if (previous == null)
+                            _first = next;
+                        else
+                            previous.Next = next;
                     }
 
                     _size--;
-
-                    break;
+                    return;
                 }
 
-                current = (LinkedNode?)current.Next;
+                if (next == null)
+                    return;
+
+                previous = current;
+                current = next;
+                next = (LinkedNode?)current.Next;
             }
         }
         public override void RemoveFirst()
         {
-            if (_first == null)
-                return;
-
-            if (_first == _last)
-            {
-                _first = null;
-                _last = null;
-            }
-            else
-            {
-                _first = (LinkedNode?)_first.Next;
-                _first.Previous = null;
-            }
-
-            _size--;
+            base.RemoveFirst();
+            if (_first != null)
+                ((LinkedNode)_first).Previous = null;
         }
         public override void RemoveLast()
         {
@@ -168,95 +122,19 @@ namespace HW_5_Generic_LINQ.Collections
             }
             else
             {
-                _last = _last.Previous;
+                _last = ((LinkedNode)_last).Previous;
                 _last.Next = null;
             }
 
             _size--;
         }
-        public override bool Contains(object data)
-        {
-            LinkedNode? current = _first;
-
-            while (current != null)
-            {
-                if (current.Data.Equals(data))
-                    return true;
-
-                current = (LinkedNode?)current.Next;
-            }
-
-            return false;
-        }
 
         public override void Sort()
         {
             _first = MergeSort(_first);
-            UpdateLastNode();
+            UpdateNodeLinks();
         }
-        private LinkedNode? MergeSort(LinkedNode? head)
-        {
-            if (head == null || head.Next == null)
-            {
-                return head;
-            }
-
-            LinkedNode? middle = GetMiddleNode(head);
-            LinkedNode? nextToMiddle = (LinkedNode?)(middle?.Next);
-            middle!.Next = null;
-
-            LinkedNode? left = MergeSort(head);
-            LinkedNode? right = MergeSort(nextToMiddle);
-
-            return Merge(left, right);
-        }
-        private LinkedNode? Merge(LinkedNode? left, LinkedNode? right)
-        {
-            if (left == null)
-            {
-                return right;
-            }
-
-            if (right == null)
-            {
-                return left;
-            }
-
-            LinkedNode? result;
-            int comparisonResult = Comparer<object>.Default.Compare(left.Data, right.Data);
-
-            if (comparisonResult <= 0)
-            {
-                result = left;
-                result.Next = Merge((LinkedNode?)left.Next, right);
-            }
-            else
-            {
-                result = right;
-                result.Next = Merge(left, (LinkedNode?)right.Next);
-            }
-
-            return result;
-        }
-        private LinkedNode? GetMiddleNode(LinkedNode? head)
-        {
-            if (head == null)
-            {
-                return head;
-            }
-
-            LinkedNode? slowPointer = head;
-            LinkedNode? fastPointer = head;
-
-            while ((LinkedNode?)(fastPointer?.Next) != null && fastPointer.Next.Next != null)
-            {
-                slowPointer = (LinkedNode?)(slowPointer?.Next);
-                fastPointer = (LinkedNode)fastPointer.Next.Next;
-            }
-
-            return slowPointer;
-        }
-        private void UpdateLastNode()
+        private void UpdateNodeLinks()
         {
             if (_first == null)
             {
@@ -264,41 +142,22 @@ namespace HW_5_Generic_LINQ.Collections
                 return;
             }
 
-            LinkedNode current = _first;
-            while (current.Next != null)
+            LinkedNode current = (LinkedNode)_first;
+            LinkedNode previous = null;
+            LinkedNode next = (LinkedNode)current.Next;
+
+            while (next != null)
             {
-                current = (LinkedNode)current.Next;
+                current.Previous = previous;
+                previous = current;
+                current = next;
+                next = (LinkedNode)next.Next;
             }
 
+            current.Previous = previous;
             _last = current;
         }
 
-        public override object[] ToArray()
-        {
-            object[] array = new object[_size];
-            LinkedNode current = _first;
-            int index = 0;
-
-            while (current != null)
-            {
-                array[index] = current.Data;
-                current = (LinkedNode?)current.Next;
-                index++;
-            }
-
-            return array;
-        }
-        public override void Clear()
-        {
-            _first = null;
-            _last = null;
-            _size = 0;
-        }
-        public override IEnumerator GetEnumerator()
-        {
-            base._first = _first;
-            return base.GetEnumerator();
-        }
         private class LinkedNode : OneLinkedNode
         {
             public LinkedNode? Previous { get; set; } = null;

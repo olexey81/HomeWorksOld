@@ -4,9 +4,9 @@ namespace HW_5_Generic_LINQ.Collections
 {
     internal class MyList<T> : Interfaces.IMyList<T> 
     {
-        private T?[] _items;
-        private const int _InitCapacity = 4;
-        private int _size;
+        protected T?[] _items;
+        protected const int _InitCapacity = 4;
+        protected int _size;
 
         public int Count => _size;
         public int Capacity
@@ -70,11 +70,14 @@ namespace HW_5_Generic_LINQ.Collections
             }
         }
 
-        public int BinarySearch(T item) => BinarySearch(item, 0, Count - 1);
-        private int BinarySearch(T item, int left, int right)
+        public int BinarySearch(T item)
         {
             Sort();
-
+            return BinarySearch(item, 0, Count - 1);
+        }
+        
+        private int BinarySearch(T item, int left, int right)
+        {
             if (left <= right)
             {
                 int middle = (left + right) / 2;
@@ -97,12 +100,11 @@ namespace HW_5_Generic_LINQ.Collections
             return -1; 
         }
 
-        public void Insert(int index, T newItem)
+        public virtual void Insert(int index, T newItem)
         {
             if (index > _size)
             {
-                Console.WriteLine("Error! Index is out of array's size");
-                return;
+                throw new IndexOutOfRangeException();
             }
 
             ModArrayToInsert(index);
@@ -119,17 +121,16 @@ namespace HW_5_Generic_LINQ.Collections
             else
                 return false;
         }
-        public void RemoveAt(int indexToRemove)
+        public virtual void RemoveAt(int indexToRemove)
         {
             if (indexToRemove >= _size)
             {
-                Console.WriteLine("Error! Index is out of array's size");
-                return;
+                throw new IndexOutOfRangeException();
             }
             else
                 CompressArray(indexToRemove);
         }
-        public void Clear()
+        public virtual void Clear()
         {
             _items = new T[_InitCapacity];
             _size = 0;
@@ -155,7 +156,7 @@ namespace HW_5_Generic_LINQ.Collections
 
             return indexItem;
         }
-        public void Reverse()
+        public virtual void Reverse()
         {
             T[] reversedItems = new T[Capacity];
 
@@ -164,13 +165,8 @@ namespace HW_5_Generic_LINQ.Collections
 
             _items = reversedItems;
         }
-        public T Search(T item)
-        {
 
-            return item;
-        }
-
-        public void Sort() => MergeSort(_items, 0, Count - 1);
+        public virtual void Sort() => MergeSort(_items, 0, Count - 1);
         private void MergeSort(T[] arr, int left, int right)
         {
             if (left < right)
@@ -270,18 +266,10 @@ namespace HW_5_Generic_LINQ.Collections
         }
         private void CompressArray(int index)
         {
-            
-            for (int i = index; i < _size; i++)
-            {
-                if (index == _size - 1)
-                {
-                    _items[index] = default;
-                    _size--;
-                    return;
-                }
+            for (int i = index; i < _size - 1; i++)
                 _items[i] = _items[i + 1];
-            }
-                
+            
+            _items[_size - 1] = default;
             _size--;
         }
 

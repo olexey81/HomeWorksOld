@@ -1,6 +1,6 @@
 ﻿namespace HW_5_Generic_LINQ.Interfaces
 {
-    interface IMyList : IMyCollection
+    public interface IMyList : IMyCollection
     {
         object this[int index] { get; set; }
         int Capacity { get; set; }
@@ -11,5 +11,6 @@
         int IndexOf(object value);
         void Reverse();
         bool Contains(object value);
+
     }
 }

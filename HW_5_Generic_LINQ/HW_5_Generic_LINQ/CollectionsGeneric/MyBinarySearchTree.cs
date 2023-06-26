@@ -66,8 +66,7 @@ namespace HW_5_Generic_LINQ.Collections
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
         //public IEnumerator GetEnumerator()
         //{
-        //List tree = new List(Count);
-        //TreeInOrder(Root, tree);
+        //    var tree = this.ToArray();
         //    for (int i = 0; i < Count; i++)
         //    {
         //        yield return tree[i];

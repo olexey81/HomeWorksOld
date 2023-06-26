@@ -44,7 +44,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 
@@ -93,7 +92,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 
@@ -136,7 +134,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 
@@ -179,7 +176,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 
@@ -222,7 +218,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 
@@ -304,7 +299,6 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
         }
 

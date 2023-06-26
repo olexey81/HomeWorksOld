@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HW_5_Generic_LINQ.Interfaces
 {
-    internal interface IMyQueue : IMyCollection
+    public interface IMyQueue : IMyCollection
     {
         void Enqueue(object item);
         object Dequeue();

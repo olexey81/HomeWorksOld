@@ -2,7 +2,7 @@
 
 namespace HW_5_Generic_LINQ.Interfaces
 {
-    interface IMyCollection : IEnumerable
+    public interface IMyCollection : IEnumerable
     {
         int Count { get; }
         object[] ToArray();

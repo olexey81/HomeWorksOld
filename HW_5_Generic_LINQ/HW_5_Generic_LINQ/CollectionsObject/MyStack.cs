@@ -54,13 +54,13 @@ namespace HW_5_Generic_LINQ.Collections
             public StackIterator(MyList items)
             {
                 _items = items;
-                _index = 0;
+                _index = items.Count - 1;
             }
             public bool MoveNext()
             {
-                if (_index < _items.Count)
+                if (_index >= 0)
                 {
-                    Current = _items[_index++];
+                    Current = _items[_index--];
                     return true;
                 }
                 return false;

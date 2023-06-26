@@ -1,6 +1,6 @@
 ﻿namespace HW_5_Generic_LINQ.Interfaces
 {
-    internal interface IMyLinkedLists<T> : IMyCollection<T>
+    public interface IMyLinkedLists<T> : IMyCollection<T>
     {
         T First { get; }
         T Last { get; }
@@ -10,6 +10,5 @@
         void Remove(T data);
         void RemoveFirst();
         void RemoveLast();
-        bool Contains(T data);
     }
 }

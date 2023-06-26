@@ -1,6 +1,6 @@
 ﻿namespace HW_5_Generic_LINQ.Interfaces
 {
-    interface IMyList<T> : IMyCollection<T>
+    public interface IMyList<T> : IMyCollection<T>
     {
         T this[int index] { get; set; }
         int Capacity { get; set; }
@@ -10,7 +10,5 @@
         bool Remove(T value);
         int IndexOf(T value);
         void Reverse();
-        bool Contains(T value);
-
     }
 }

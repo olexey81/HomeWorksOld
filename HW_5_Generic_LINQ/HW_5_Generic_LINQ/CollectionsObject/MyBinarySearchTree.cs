@@ -46,7 +46,7 @@ namespace HW_5_Generic_LINQ.Collections
         }
         public object[] ToArray()
         {
-            MyList array = new MyList(_size);
+            var array = new MyList(_size);
             TreeInOrder(_root, array);
 
             return array.ToArray();
@@ -64,8 +64,7 @@ namespace HW_5_Generic_LINQ.Collections
         }
         //public IEnumerator GetEnumerator()
         //{
-        //List tree = new List(Count);
-        //TreeInOrder(Root, tree);
+        //    var tree = this.ToArray();
         //    for (int i = 0; i < Count; i++)
         //    {
         //        yield return tree[i];
@@ -95,7 +94,6 @@ namespace HW_5_Generic_LINQ.Collections
 
             public void Reset()
             {
-                _index = 0;
             }
         }
         public class Node

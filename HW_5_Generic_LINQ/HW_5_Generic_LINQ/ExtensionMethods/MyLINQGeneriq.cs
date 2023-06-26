@@ -46,12 +46,10 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
 
             public void Dispose()
             {
-                _iter.Dispose();
             }
         }
 
@@ -102,11 +100,9 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
             public void Dispose()
             {
-                _iter.Dispose();
             }
         }
 
@@ -151,11 +147,9 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
             public void Dispose()
             {
-                _iter.Dispose();
             }
         }
 
@@ -199,11 +193,9 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
             public void Dispose()
             {
-                _iter.Dispose();
             }
 
         }
@@ -248,11 +240,9 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
             public void Dispose()
             {
-                _iter.Dispose();
             }
         }
 
@@ -334,11 +324,9 @@ namespace HW_5_Generic_LINQ.ExtensionMethods
 
             public void Reset()
             {
-                _iter.Reset();
             }
             public void Dispose()
             {
-                _iter.Dispose();
             }
         }
 

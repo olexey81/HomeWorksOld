@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace HW_5_Generic_LINQ.Interfaces
 {
-    internal interface IMyStack : IMyCollection
+    public interface IMyStack : IMyCollection
     {
         object Peek();
         void Push(object item);

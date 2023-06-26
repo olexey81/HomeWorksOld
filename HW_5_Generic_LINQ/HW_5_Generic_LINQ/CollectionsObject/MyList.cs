@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace HW_5_Generic_LINQ.Collections
 {
@@ -70,16 +71,19 @@ namespace HW_5_Generic_LINQ.Collections
             }
         }
 
-        public int BinarySearch(object item) => BinarySearch(item, 0, Count - 1);
-        private int BinarySearch(object item, int left, int right)
+        public int BinarySearch(object item)
         {
             Sort();
-
+            return BinarySearch(item, 0, Count - 1);
+        }
+        
+        private int BinarySearch(object item, int left, int right)
+        {
             if (left <= right)
             {
                 int middle = (left + right) / 2;
                 int comparisonResult = Comparer<object>.Default.Compare(_items[middle], item);
-
+                
                 if (comparisonResult == 0)
                 {
                     return middle;
@@ -267,14 +271,10 @@ namespace HW_5_Generic_LINQ.Collections
         }
         private void CompressArray(int index)
         {
-            if (index == _size - 1)
-            {
-                _items[index] = null;
-                _size--;
-                return;
-            }
-            for (int i = index; i < _size; i++)
+            for (int i = index; i < _size - 1; i++)
                 _items[i] = _items[i + 1];
+
+            _items[_size - 1] = null;
             _size--;
         }
 
