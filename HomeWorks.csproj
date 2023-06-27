@@ -25,4 +25,8 @@
     <Compile Remove="HW2_28.05.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="HW_5_Generic_LINQ\HW_5_Generic_LINQ\" />
+  </ItemGroup>
+
 </Project>
