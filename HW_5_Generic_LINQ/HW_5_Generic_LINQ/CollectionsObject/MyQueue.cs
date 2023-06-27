@@ -1,18 +1,20 @@
-﻿namespace HW_4_Collections
-{
-    internal class Queue
-    {
-        private List _items;
+﻿using HW_5_Generic_LINQ.Interfaces;
+using System.Collections;
 
+namespace HW_5_Generic_LINQ.Collections
+{
+    internal class MyQueue : IMyQueue
+    {
+        private MyList _items;
         public int Count => _items.Count;
 
-        public Queue()
+        public MyQueue()
         {
-            _items = new List(0);
+            _items = new MyList(0);
         }
-        public Queue(int capacity)
+        public MyQueue(int capacity)
         {
-            _items = new List(capacity);
+            _items = new MyList(capacity);
         }
 
         public void Enqueue(object item) => _items.Add(item);
@@ -36,19 +38,12 @@
                 return null;
         }
         public object[] ToArray() => _items.ToArray();
+
+        //public  IEnumerator GetEnumerator()
+        //{
+        //    for (int i = 0; i < Count; i++)
+        //        yield return _items[i];
+        //}
+        public IEnumerator GetEnumerator() => _items.GetEnumerator();
     }
 }
-
-// Черга
-// Принцип FIFO.
-
-// Методи
-//  Enqueue(object)         +
-//  object Dequeue()        +
-//  Clear()                 +
-//  bool Contains(object)   +
-//  object Peek()           + 
-//  ToArray().              +
-
-//  Свойство Count.
-
